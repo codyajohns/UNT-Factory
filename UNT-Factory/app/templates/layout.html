@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- These 3 meta tags MUST come first -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- These 3 meta tags MUST come first -->
+
+    <title>{{ user_manager.app_name }} - {{ title }}</title>
+
+    <!-- Semantic CSS and JS -->
+    <link href="{{ url_for('static', filename='semantic/css/flag.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='semantic/css/icon.min.css') }}" rel="stylesheet">
+	  <link href="{{ url_for('static', filename='semantic/css/semantic.min.css') }}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='semantic/js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='semantic/js/respond.min.js') }}"></script>
+    <![endif]-->
+
+    <!-- Application specific CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+	<body>
+    {% block body %}
+    <!-- Application specific HTML -->
+    <div class="ui green inverted vertical page-header segment">
+      <div class="ui container">
+				<div class="ui inverted text menu">
+					<a class="huge item" href="{{ url_for('main.home_page') }}">
+						<div class="ui huge inverted header">
+							<i class="settings icon"></i>
+							UNT Factory
+						</div>
+					</a>
+					<div class="right menu">
+						{% if current_user.is_authenticated %}
+							<a class="item" href="{{ url_for('main.user_profile_page') }}">{{ current_user.first_name or current_user.user_auth.username }}</a>
+							<div class="item">
+								<a class="ui red icon button" href="{{ url_for('user.logout') }}">
+									Sign out
+									<i class="sign out icon"></i>
+								</a>
+							</div>
+						{% else %}
+							<div class="item">
+								<a class="ui white inverted icon button" href="{{ url_for('user.register') }}">
+									<i class="add user icon"></i>
+									Register
+								</a>
+							</div>
+							<div class="item">
+								<a class="ui white inverted icon button" href="{{ url_for('user.login') }}">
+									<i class="sign in icon"></i>
+									Sign in
+								</a>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+      </div>
+    </div>
+
+    <div class="ui page-content container">
+		  {% block pre_content %}{% endblock %}
+
+	    {# One-time system messages called Flash messages #}
+	    {% block flash_messages %}
+	      {%- with messages = get_flashed_messages(with_categories=true) -%}
+	        {% if messages %}
+	          {% for category, message in messages %}
+	            {% if category!='error' %}
+	              {% set category='positive' %}
+	            {% endif %}
+	            <div class="ui {{category}} message">{{ message|safe }}</div>
+	          {% endfor %}
+	        {% endif %}
+	      {%- endwith %}
+	    {% endblock %}
+
+	    {% block content %}{% endblock %}
+
+	    {% block post_content %}{% endblock %}
+	  </div>
+
+    <div class="ui inverted vertical page-footer segment">
+	    <div class="ui center aligned container">
+		    <div class="ui equal width grid">
+			    <div class="left aligned column">
+						<div class="ui center aligned inverted header">
+							Contact Information
+						</div>
+				    University of North Texas Libraries<br>
+				    1115 Union Circle #305190<br>
+				    Denton, TX 76203-5017<br>
+				    (940) 565-2411<br><br>
+				    <a href="https://www.library.unt.edu/location-hours">
+					    Locations, Maps, and Hours
+				    </a>
+			    </div>
+			    <div class="left aligned column">
+						<div class="ui center aligned inverted header">
+							The Factory
+						</div>
+				    <div class="ui list">
+					    <div class="item">
+						    <i class="mail icon"></i>
+						    <div class="content">
+							    Email Us:
+						      <a href="mailto://thefactory@unt.edu">TheFactory@unt.edu</a>
+						    </div>
+					    </div>
+					    <div class="item">
+						    <i class="phone icon"></i>
+						    <div class="content">
+							    Call Us:
+							    <a href="tel://940-369-5259">(940) 369-5259</a>
+						    </div>
+					    </div>
+					    <div class="item">
+						    <i class="industry icon"></i>
+						    <div class="content">
+							    Visit Us:<br>
+							    Willis Library - 1st floor<br>
+							    In the very back by the printers
+						    </div>
+					    </div>
+				    </div>
+				    <div class="ui center aligned buttons">
+					    <a class="ui facebook icon button" href="https://www.facebook.com/TheFactoryUNT">
+						    <i class="facebook icon"></i>
+					    </a>
+					    <a class="ui twitter icon button" href="https://www.twitter.com/TheFactoryUNT">
+						    <i class="twitter icon"></i>
+					    </a>
+				    </div>
+			    </div>
+			    <div class="left aligned column">
+						<div class="ui center aligned inverted header">
+							UNT Links
+						</div>
+				    <div class="ui list">
+					    <div class="item">
+						    <a href="http://www.unt.edu/disclaimer.htm">Disclaimer</a>
+					    </div>
+					    <div class="item">
+						    <a href="http://www.unt.edu/ada.htm">AA/EOF/ADA</a>
+					    </div>
+					    <div class="item">
+						    <a href="http://www.unt.edu/unt_ps.htm">Privacy</a>
+					    </div>
+					    <div class="item">
+						    <a href="http://policy.unt.edu/policy-by-number/5">Web Accessibility</a>
+					    </div>
+					    <div class="item">
+						    <a href="http://www.ent.edu/state-texas.htm">State of Texas Online</a>
+					    </div>
+					    <div class="item">
+						    <a href="http://emergency.unt.edu">Emergency Preparedness</a>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+
+		    <div class="ui inverted divider"></div>
+
+		    <div class="ui equal width grid">
+			    <div class="left aligned middle aligned column">
+				    &copy; 2018 Strategic Gravity
+			    </div>
+			    <div class="center aligned middle aligned column">
+				    {{ user_manager.app_name }} v1.0
+			    </div>
+			    <div class="right aligned middle aligned column">
+				    Powered by
+			      <a class='ui tiny image' target='_blank' href='http://flask.pocoo.org/'>
+			        <img src='{{ url_for('static', filename='img/flask_logo.png') }}'>
+			      </a>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='semantic/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='semantic/js/semantic.min.js') }}"></script>
+
+    <!-- Optional Google Analytics: change UA-XXXXX-X to be your site's ID.
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+    </script>
+    -->
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,26 @@
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.page-content {
+  padding-top: 3em !important;
+  padding-bottom: 5em !important;
+  flex: 1 0 auto;
+}
+
+.page-header {
+  padding-top: 2em !important;
+  padding-bottom: 2em !important;
+
+}
+.page-footer {
+  padding-top: 3em !important;
+  padding-bottom: 1em !important;
+  flex-shrink: 0;
+}
+.logo {
+  display: inline-block;
+}
