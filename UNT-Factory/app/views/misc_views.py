@@ -8,7 +8,7 @@ from flask import request, url_for
 from flask_user import current_user, login_required, roles_accepted
 
 from app import db
-from app.models.user_models import UserProfileForm
+from app.models.user_models import UserProfileForm, UserNewJobForm
 
 # When using a Flask app factory we must use a blueprint to avoid needing 'app' for '@app.route'
 main_blueprint = Blueprint('main', __name__, template_folder='templates')
@@ -48,10 +48,16 @@ def user_profile_page():
         db.session.commit()
 
         # Redirect to home page
-        return redirect(url_for('main.home_page'))
+        return redirect(url_for('main.user_profile_page'))
 
     # Process GET or invalid POST
     return render_template('pages/user_profile_page.html',
                            form=form)
 
 
+@main_blueprint.route('/pages/newjob', methods=['GET', 'POST'])
+@login_required
+def user_new_job():
+    form=UserNewJobForm()
+
+    return render_template('pages/user_new_job_page.html', form=form)

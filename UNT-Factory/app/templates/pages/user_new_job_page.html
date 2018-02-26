@@ -1,0 +1,31 @@
+{% extends "common/page_base.html" %}  {# common/page_base.html extends layout.html #}
+{% from "common/form_macros.html" import render_field, render_submit_field %}
+{% block content %}
+    <div class="ui text container">
+     <form action="" method="POST" class="ui left aligned form" role="form">
+    {{ form.hidden_tag() }}
+
+    {{ render_field(form.file, tabindex=240) }}
+    {#  {{ render_field(form.color, tabindex=250) }} #}
+    {#  {{ render_field(form.notes, tabindex=280) }} #}
+         <div class="field">
+             <label>
+                 Color
+             </label>
+             <div class="ui selection dropdown">
+                 <input type="hidden" name="color">
+                 <i class="dropdown icon"></i>
+                 <div class="default text">
+                     Filament Color
+                 </div>
+                 <div class="menu">
+                     <div class="item" data-value="r"> <i class="red square icon"></i> Red</div>
+                     <div class="item" data-value="g"> <i class="green square icon"></i>Green</div>
+                     <div class="item" data-value="b"> <i class="blue square icon"></i>Blue</div>
+                 </div>
+             </div>
+         </div>
+    {{ render_submit_field(form.submit, tabindex=280) }}
+    </form>
+    </div>
+{% endblock %}

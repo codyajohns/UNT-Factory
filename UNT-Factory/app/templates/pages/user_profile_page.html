@@ -1,23 +1,22 @@
 {% extends "common/page_base.html" %}  {# common/page_base.html extends layout.html #}
-
-{% block content %}
-<h1>User Profile</h1>
-
-<p><a href="{{ url_for('user.change_password') }}">Change password</a></p>
-
 {% from "common/form_macros.html" import render_field, render_submit_field %}
-<form action="" method="POST" class="form" role="form">
-  <div class="row">
-    <div class="col-sm-6 col-md-5 col-lg-4">
-    {{ form.hidden_tag() }}
+{% block content %}
 
-    {{ render_field(form.first_name, tabindex=240) }}
+<div class="ui grid">
+    <div class="six wide column">
+        <div class="ui large header">
+            User Profile
+        </div>
+       <form action="" method="POST" class="ui left aligned form" role="form">
+        {{ form.hidden_tag() }}
 
-    {{ render_field(form.last_name, tabindex=250) }}
+        {{ render_field(form.first_name, tabindex=240) }}
 
-    {{ render_submit_field(form.submit, tabindex=280) }}
+        {{ render_field(form.last_name, tabindex=250) }}
+        {{ render_submit_field(form.submit, tabindex=280) }}
+        <a class="ui submit button" href="{{ url_for('user.change_password') }}">Change password</a>
+        </form>
     </div>
-  </div>
-</form>
+</div>
 
 {% endblock %}

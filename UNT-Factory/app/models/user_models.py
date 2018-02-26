@@ -5,7 +5,7 @@
 from flask_user import UserMixin
 from flask_user.forms import RegisterForm
 from flask_wtf import Form
-from wtforms import StringField, SubmitField, validators
+from wtforms import StringField, SubmitField, FileField, TextAreaField, SelectField, validators
 from app import db
 
 
@@ -63,3 +63,10 @@ class UserProfileForm(Form):
     last_name = StringField('Last name', validators=[
         validators.DataRequired('Last name is required')])
     submit = SubmitField('Save')
+
+
+class UserNewJobForm(Form):
+    file=FileField('Upload File', validators=[validators.DataRequired('File Required')])
+    color=SelectField('Filament Color', choices=['Red', 'Green', 'Blue'])
+    notes=TextAreaField('Special Notes', [validators.optional(), validators.length(max=200)])
+    submit=SubmitField('Submit')

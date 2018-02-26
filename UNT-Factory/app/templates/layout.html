@@ -8,7 +8,7 @@
     <!-- These 3 meta tags MUST come first -->
 
     <title>{{ user_manager.app_name }} - {{ title }}</title>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Semantic CSS and JS -->
     <link href="{{ url_for('static', filename='semantic/css/flag.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='semantic/css/icon.min.css') }}" rel="stylesheet">
@@ -22,51 +22,58 @@
 
     <!-- Application specific CSS-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </head>
 	<body>
     {% block body %}
     <!-- Application specific HTML -->
-    <div class="ui green inverted vertical page-header segment">
-      <div class="ui container">
-				<div class="ui inverted text menu">
-					<a class="huge item" href="{{ url_for('main.home_page') }}">
-						<div class="ui huge inverted header">
-							<i class="settings icon"></i>
-							UNT Factory
-						</div>
-					</a>
-					<div class="right menu">
-						{% if current_user.is_authenticated %}
-							<a class="item" href="{{ url_for('main.user_profile_page') }}">{{ current_user.first_name or current_user.user_auth.username }}</a>
-							<div class="item">
-								<a class="ui red icon button" href="{{ url_for('user.logout') }}">
-									Sign out
-									<i class="sign out icon"></i>
-								</a>
-							</div>
-						{% else %}
-							<div class="item">
-								<a class="ui white inverted icon button" href="{{ url_for('user.register') }}">
-									<i class="add user icon"></i>
-									Register
-								</a>
-							</div>
-							<div class="item">
-								<a class="ui white inverted icon button" href="{{ url_for('user.login') }}">
-									<i class="sign in icon"></i>
-									Sign in
-								</a>
-							</div>
-						{% endif %}
-					</div>
-				</div>
-      </div>
+    <div class="page-header" >
+        <div class="ui unt-green inverted vertical segment">
+            <div class="ui container">
+                <div class="ui inverted text menu">
+                        <a class="huge item" href="{{ url_for('main.home_page') }}">
+                            <div class="ui huge inverted header">
+                                <i class="settings icon"></i>
+                                UNT Factory
+                            </div>
+                        </a>
+                        <a class="item" href="{{ url_for('main.user_new_job')}}">New Job</a>
+                        <div class="right menu">
+                            {% if current_user.is_authenticated %}
+                                <a class="item" href="{{ url_for('main.user_profile_page') }}">{{ current_user.first_name or current_user.user_auth.username }}</a>
+                                <div class="item">
+                                    <a class="ui red icon button" href="{{ url_for('user.logout') }}">
+                                        Sign out
+                                        <i class="sign out icon"></i>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="item">
+                                    <a class="ui white inverted icon button" href="{{ url_for('user.register') }}">
+                                        <i class="add user icon"></i>
+                                        Register
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a class="ui white inverted icon button" href="{{ url_for('user.login') }}">
+                                        <i class="sign in icon"></i>
+                                        Sign in
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="ui black inverted vertical segment"></div>
+    </div>
+
     </div>
 
     <div class="ui page-content container">
 		  {% block pre_content %}{% endblock %}
 
-	    {# One-time system messages called Flash messages #}
+	    {# One-time system messages called Flash messages (jinja2) #}
 	    {% block flash_messages %}
 	      {%- with messages = get_flashed_messages(with_categories=true) -%}
 	        {% if messages %}
