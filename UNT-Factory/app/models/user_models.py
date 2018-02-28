@@ -4,7 +4,7 @@
 
 from flask_user import UserMixin
 from flask_user.forms import RegisterForm
-from flask_wtf import Form
+from flask_wtf import Form, FlaskForm
 from wtforms import StringField, SubmitField, FileField, TextAreaField, SelectField, validators
 from app import db
 
@@ -46,6 +46,41 @@ class UsersRoles(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+class Order(db.Model):
+    __tablename__='orders'
+    id = db.Column(db.Integer(), primary_key=True)
+    order_number = db.Column(db.Integer(), nullable =False)
+    submitted_at = db.Column(db.DateTime())
+    #job_type = db.relationship('JobType', secondary='job_types', backref=db.backref('job_type', lazy='dynamic'))
+    #user = db.relationship('User', secondary='users_orders', backref=db.backref('orders', lazy='dynamic'))
+    file_path = db.Column(db.String(255), nullable = False)
+    #color = db.relationship('Color', secondary='orders_colors', backref=db.backref('orders', lazy='dynamic'))
+
+class Status(db.Model):
+    __tablename__='statuses'
+    id = db.Column(db.Integer(), primary_key=True)
+    name =  db.Column(db.String(50), nullable=False, server_default=u'', unique=True)
+    label = db.Column(db.Unicode(255), server_default = u'')
+
+class Color(db.Model):
+    __tablename__='colors'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(50), nullable=False, server_default=u'', unique=True)
+    label = db.Column(db.Unicode(255), server_default=u'')
+    icon = db.Column(db.String(50), nullable=False)
+
+class OrdersColors(db.Model):
+    __tablename__='orders_colors'
+    id = db.Column(db.Integer(), primary_key=True)
+    order_id = db.Column(db.Integer(), db.ForeignKey('orders.id', ondelete='CASCADE'))
+    color_id = db.Column(db.Integer(), db.ForeignKey('colors.id', ondelete='CASCADE'))
+
+
+class OrdersStatus(db.Model):
+    __tablename__='orders_statuses'
+    id = db.Column(db.Integer(), primary_key=True)
+    order_id = db.Column(db.Integer(), db.ForeignKey('orders.id', ondelete='CASCADE'))
+    status_id = db.Column(db.Integer(), db.ForeignKey('statuses.id', ondelete='CASCADE'))
 
 # Define the User registration form
 # It augments the Flask-User RegisterForm with additional fields
@@ -65,8 +100,9 @@ class UserProfileForm(Form):
     submit = SubmitField('Save')
 
 
-class UserNewJobForm(Form):
+class UserNewJobForm(FlaskForm):
     file=FileField('Upload File', validators=[validators.DataRequired('File Required')])
     color=SelectField('Filament Color', choices=['Red', 'Green', 'Blue'])
     notes=TextAreaField('Special Notes', [validators.optional(), validators.length(max=200)])
     submit=SubmitField('Submit')
+

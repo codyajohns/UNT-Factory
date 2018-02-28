@@ -2,7 +2,7 @@
 {% from "common/form_macros.html" import render_field, render_submit_field %}
 {% block content %}
     <div class="ui text container">
-     <form action="" method="POST" class="ui left aligned form" role="form">
+     <form action="" method="POST" class="ui left aligned form" role="form" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
 
     {{ render_field(form.file, tabindex=240) }}
@@ -24,6 +24,12 @@
                      <div class="item" data-value="b"> <i class="blue square icon"></i>Blue</div>
                  </div>
              </div>
+         </div>
+         <div class="field">
+             <label>
+                 Notes
+             </label>
+             <textarea rows="2" placeholder="Place any special printing instructions here.(Optional)"></textarea>
          </div>
     {{ render_submit_field(form.submit, tabindex=280) }}
     </form>
